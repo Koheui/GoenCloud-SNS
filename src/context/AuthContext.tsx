@@ -47,10 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithLink = async (email: string) => {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      await signInWithEmailLink(auth, email, window.location.href);
-      window.localStorage.removeItem('emailForSignIn');
-    }
+    await signInWithEmailLink(auth, email, window.location.href);
+    window.localStorage.removeItem('emailForSignIn');
   };
 
   const signOut = async () => {
