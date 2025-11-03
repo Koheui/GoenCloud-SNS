@@ -15,7 +15,7 @@ service cloud.firestore {
 
     match /spaces/{spaceId} {
       allow read: if true;
-      allow write: if request.auth.uid == resource.data.ownerId;
+      allow write: if request.auth.uid == resource.data.ownerUid;
       match /relations/{otherUid} {
         allow read, create, update, delete: if request.auth != null;
       }
@@ -23,9 +23,13 @@ service cloud.firestore {
         allow read: if true;
         allow create, update: if request.auth.uid == visitorUid;
       }
-      match /timeline/{itemId}, /music/{trackId} {
+      match /timeline/{itemId} {
         allow read: if true;
-        allow write: if request.auth.uid == get(/databases/$(db)/documents/spaces/$(spaceId)).data.ownerId;
+        allow write: if request.auth.uid == get(/databases/$(db)/documents/spaces/$(spaceId)).data.ownerUid;
+      }
+      match /music/{trackId} {
+        allow read: if true;
+        allow write: if request.auth.uid == get(/databases/$(db)/documents/spaces/$(spaceId)).data.ownerUid;
       }
     }
 
