@@ -1,0 +1,24 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // ユーザーは自分のフォルダにのみアップロード可能
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // スペース関連のメディア（画像・動画）
+    match /spaces/{spaceId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null; // Functions でバリデーション
+    }
+    
+    // 投稿のメディア
+    match /posts/{postId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null; // Functions でバリデーション
+    }
+  }
+}
+
