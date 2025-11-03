@@ -22,20 +22,31 @@ const LoginPage: React.FC = () => {
 
   // メールリンクからのログインを自動処理
   useEffect(() => {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
+    const isEmailLink = isSignInWithEmailLink(auth, window.location.href);
+    console.log('isEmailLink:', isEmailLink);
+    console.log('URL:', window.location.href);
+    
+    if (isEmailLink) {
       const savedEmail = window.localStorage.getItem('emailForSignIn');
+      console.log('savedEmail:', savedEmail);
+      
       if (savedEmail) {
         setLoading(true);
         const handleSignIn = async () => {
           try {
+            console.log('Attempting sign in...');
             await signInWithLink(savedEmail);
+            console.log('Sign in successful');
             navigate('/');
           } catch (error: any) {
+            console.error('Sign in error:', error);
             setMessage(`エラー: ${error.message}`);
             setLoading(false);
           }
         };
         handleSignIn();
+      } else {
+        console.log('No saved email found');
       }
     }
   }, [signInWithLink, navigate]);
@@ -53,18 +64,9 @@ const LoginPage: React.FC = () => {
     setMessage('');
 
     try {
-      // URLがEmail Link かチェック
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('mode') && urlParams.get('mode') === 'signIn') {
-        // メールリンクからアクセスした場合
-        await signInWithLink(email);
-        setMessage('ログインしました！');
-        navigate('/');
-      } else {
-        // 通常のログインリクエスト
-        await sendLoginEmail(email);
-        setMessage('ログイン用のメールを送信しました。メール内のリンクをクリックしてください。');
-      }
+      // メールリンクの送信
+      await sendLoginEmail(email);
+      setMessage('ログイン用のメールを送信しました。メール内のリンクをクリックしてください。');
     } catch (error: any) {
       setMessage(`エラー: ${error.message}`);
     } finally {
