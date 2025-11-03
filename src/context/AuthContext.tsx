@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Email Link 認証のセットアップ
   const sendLoginEmail = async (email: string) => {
     const actionCodeSettings = {
-      url: window.location.origin,
+      url: window.location.origin + '/login',
       handleCodeInApp: true,
     };
 
