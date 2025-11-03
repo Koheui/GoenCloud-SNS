@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
           <div className="feature-card">
             <h2>My Space</h2>
             <p>自分のSpaceを作成・管理</p>
-            <button className="feature-button">Spaceを作成</button>
+            <button onClick={() => navigate('/create-space')} className="feature-button">Spaceを作成</button>
           </div>
 
           <div className="feature-card">
