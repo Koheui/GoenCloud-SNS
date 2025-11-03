@@ -22,31 +22,21 @@ const LoginPage: React.FC = () => {
 
   // メールリンクからのログインを自動処理
   useEffect(() => {
-    const isEmailLink = isSignInWithEmailLink(auth, window.location.href);
-    console.log('isEmailLink:', isEmailLink);
-    console.log('URL:', window.location.href);
-    
-    if (isEmailLink) {
+    if (isSignInWithEmailLink(auth, window.location.href)) {
       const savedEmail = window.localStorage.getItem('emailForSignIn');
-      console.log('savedEmail:', savedEmail);
       
       if (savedEmail) {
         setLoading(true);
         const handleSignIn = async () => {
           try {
-            console.log('Attempting sign in...');
             await signInWithLink(savedEmail);
-            console.log('Sign in successful');
             navigate('/');
           } catch (error: any) {
-            console.error('Sign in error:', error);
             setMessage(`エラー: ${error.message}`);
             setLoading(false);
           }
         };
         handleSignIn();
-      } else {
-        console.log('No saved email found');
       }
     }
   }, [signInWithLink, navigate]);
