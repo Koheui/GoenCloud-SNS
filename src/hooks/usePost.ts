@@ -35,12 +35,19 @@ export const usePost = () => {
         reportCount: 0,
       };
 
-      const postData = {
+      const postData: any = {
         ...newPost,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-        publishedAt: status === 'approved' ? serverTimestamp() : undefined,
       };
+      
+      if (status === 'approved') {
+        postData.publishedAt = serverTimestamp();
+      }
+      
+      if (!mediaUrls) {
+        delete postData.mediaUrls;
+      }
 
       const docRef = await addDoc(collection(db, 'posts'), postData);
       return docRef.id;
