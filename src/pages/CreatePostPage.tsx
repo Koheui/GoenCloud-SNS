@@ -12,8 +12,10 @@ const CreatePostPage: React.FC = () => {
   const { createPost, loading, error } = usePost();
   const navigate = useNavigate();
 
-  const [postType, setPostType] = useState<'text_short' | 'text_long'>('text_short');
+  const [postType, setPostType] = useState<'text_short' | 'text_long' | 'photo'>('text_short');
   const [content, setContent] = useState('');
+  const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [space, setSpace] = useState<any>(null);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ const CreatePostPage: React.FC = () => {
     }
 
     try {
-      await createPost(spaceId, currentUser.uid, space.mode, postType, content);
+      await createPost(spaceId, currentUser.uid, space.mode, postType, content, mediaUrls.length > 0 ? mediaUrls : undefined);
       navigate(`/space/${spaceId}`);
     } catch (err) {
       console.error(err);
