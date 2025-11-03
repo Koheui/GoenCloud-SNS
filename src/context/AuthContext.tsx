@@ -65,29 +65,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const existingData = userSnap.data() as User;
       // 既存ユーザーでトークン残高がない場合は初期付与
       if (!existingData.tokenBalance) {
-        const updatedData = {
-          ...existingData,
+        const updatedData: any = {
           tokenBalance: 200,
           betaGrantedAt: serverTimestamp() as any,
           lastTokenUpdateAt: serverTimestamp() as any,
         };
         await setDoc(userRef, updatedData, { merge: true });
-        setUserData(updatedData);
+        setUserData({ ...existingData, ...updatedData });
       } else {
         setUserData(existingData);
       }
     } else {
       // 新規ユーザーの場合は初期データを作成
-      const initialUserData: User = {
+      const initialUserData: any = {
         uid,
         displayName: currentUser?.displayName || '',
         email: currentUser?.email || '',
-        photoURL: currentUser?.photoURL,
         tokenBalance: 200, // β版初期付与
         betaGrantedAt: serverTimestamp() as any,
         lastTokenUpdateAt: serverTimestamp() as any,
         createdAt: serverTimestamp() as any,
       };
+      
+      if (currentUser?.photoURL) {
+        initialUserData.photoURL = currentUser.photoURL;
+      }
+      
       await setDoc(userRef, initialUserData);
       setUserData(initialUserData);
     }
