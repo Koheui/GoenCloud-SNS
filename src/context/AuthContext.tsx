@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           betaGrantedAt: serverTimestamp() as any,
           lastTokenUpdateAt: serverTimestamp() as any,
         };
-        await setDoc(userRef, updatedData);
+        await setDoc(userRef, updatedData, { merge: true });
         setUserData(updatedData);
       } else {
         setUserData(existingData);
