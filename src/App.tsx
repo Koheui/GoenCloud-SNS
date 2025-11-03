@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import CreateSpacePage from './pages/CreateSpacePage';
 import SpacePage from './pages/SpacePage';
+import CreatePostPage from './pages/CreatePostPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-space" element={<CreateSpacePage />} />
           <Route path="/space/:id" element={<SpacePage />} />
+          <Route path="/space/:spaceId/post" element={<CreatePostPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
