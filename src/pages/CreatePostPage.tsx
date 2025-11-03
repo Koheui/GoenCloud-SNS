@@ -12,7 +12,7 @@ const CreatePostPage: React.FC = () => {
   const { createPost, loading, error } = usePost();
   const navigate = useNavigate();
 
-  const [postType, setPostType] = useState<'text_short' | 'text_long' | 'photo'>('text_short');
+  const [postType, setPostType] = useState<'text_short' | 'text_long'>('text_short');
   const [content, setContent] = useState('');
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
