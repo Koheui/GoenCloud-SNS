@@ -38,15 +38,18 @@ export const useTokens = () => {
 
         // トークン台帳に記録
         const txRef = doc(db, 'users', uid, 'tokenTransactions', txId);
-        const txData: TokenTransaction = {
+        const txData: any = {
           type: 'use',
           tokens: -amount,
           source: 'system',
           status: 'committed',
-          related,
           createdAt: serverTimestamp() as any,
           committedAt: serverTimestamp() as any,
         };
+        
+        if (related) {
+          txData.related = related;
+        }
 
         transaction.set(txRef, txData);
         transaction.update(userRef, {
