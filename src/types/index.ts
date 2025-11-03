@@ -26,6 +26,7 @@ export interface TokenTransaction {
 
 // Space Types
 export interface Space {
+  id: string;
   ownerUid: string;
   stewardUid?: string;
   mode: 'life' | 'tribute';

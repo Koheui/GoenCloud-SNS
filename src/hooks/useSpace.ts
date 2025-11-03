@@ -48,7 +48,7 @@ export const useSpace = () => {
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() } as Space & { id: string };
+      return { id: docSnap.id, ...docSnap.data() } as Space;
     }
     return null;
   }, []);
@@ -61,7 +61,7 @@ export const useSpace = () => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-    } as Space & { id: string }));
+    } as Space));
   }, []);
 
   // Spaceを更新

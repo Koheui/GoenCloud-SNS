@@ -12,8 +12,8 @@ const SpacePage: React.FC = () => {
   const { currentUser } = useAuth();
   const { getSpace, loading: spaceLoading } = useSpace();
   const { getPostsBySpace, loading: postLoading } = usePost();
-  const [space, setSpace] = useState<(Space & { id: string }) | null>(null);
-  const [posts, setPosts] = useState<(Post & { id: string })[]>([]);
+  const [space, setSpace] = useState<Space | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const loading = spaceLoading || postLoading;
 

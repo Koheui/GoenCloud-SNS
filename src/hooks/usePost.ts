@@ -24,7 +24,7 @@ export const usePost = () => {
       // 生前モードでは pending、弔いモードでは approved
       const status: PostStatus = mode === 'life' ? 'pending' : 'approved';
 
-      const newPost: Omit<Post, 'id' | 'createdAt' | 'updatedAt'> = {
+      const newPost: Omit<Post, 'id' | 'createdAt' | 'updatedAt' | 'publishedAt'> = {
         spaceId,
         ownerUid,
         mode,
@@ -74,7 +74,7 @@ export const usePost = () => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-    } as Post & { id: string }));
+    } as Post));
   }, []);
 
   // 投稿を承認

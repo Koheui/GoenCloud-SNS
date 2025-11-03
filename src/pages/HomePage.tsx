@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { useFeed } from '../hooks/useFeed';
+import type { Post, ApprovedSpace } from '../types';
 import '../styles/HomePage.css';
 
 const HomePage: React.FC = () => {
   const { currentUser, userData, loading, signOut } = useAuth();
   const navigate = useNavigate();
+  const { getApprovedPosts, loading: feedLoading } = useFeed();
+  const [feedPosts, setFeedPosts] = useState<Post[]>([]);
 
-  if (loading) {
+  // ご縁フィードを取得
+  useEffect(() => {
+    const fetchFeed = async () => {
+      if (currentUser) {
+        // approvedSpaces から承認済みのSpace一覧を取得
+        const approvedSpacesRef = collection(db, 'users', currentUser.uid, 'approvedSpaces');
+        const approvedSpacesSnapshot = await getDocs(approvedSpacesRef);
+        const spaceIds = approvedSpacesSnapshot.docs.map(doc => doc.id);
+
+        if (spaceIds.length > 0) {
+          const posts = await getApprovedPosts(spaceIds);
+          setFeedPosts(posts);
+        }
+      }
+    };
+    fetchFeed();
+  }, [currentUser, getApprovedPosts]);
+
+  const isLoading = loading || feedLoading;
+
+  if (isLoading) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
@@ -44,13 +70,25 @@ const HomePage: React.FC = () => {
       </header>
 
       <main className="main-content">
-        <div className="feature-grid">
-          <div className="feature-card">
-            <h2>ご縁フィード</h2>
-            <p>承認済みのご縁の更新一覧</p>
-            <button className="feature-button">フィードを見る</button>
-          </div>
+        <div className="section">
+          <h2>ご縁フィード</h2>
+          {feedPosts.length === 0 ? (
+            <div className="empty-feed">
+              <p>承認済みのご縁からの投稿がありません</p>
+            </div>
+          ) : (
+            <div className="feed-grid">
+              {feedPosts.map((post) => (
+                <div key={post.id} className="feed-post-card">
+                  <p className="post-content">{post.content}</p>
+                  <span className="post-type">{post.type}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
+        <div className="feature-grid">
           <div className="feature-card">
             <h2>My Space</h2>
             <p>自分のSpaceを作成・管理</p>
