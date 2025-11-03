@@ -6,7 +6,7 @@ service cloud.firestore {
       allow read, create, update: if request.auth.uid == uid;
       match /tokenTransactions/{txId} {
         allow read: if request.auth.uid == uid || request.auth.token.admin == true;
-        allow write: if false;
+        allow create: if request.auth.uid == uid;
       }
       match /approvedSpaces/{spaceId} {
         allow read: if request.auth.uid == uid;
