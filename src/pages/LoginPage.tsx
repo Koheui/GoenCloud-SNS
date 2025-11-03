@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { isSignInWithEmailLink } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
+import { auth } from '../lib/firebase';
 import '../styles/LoginPage.css';
 
 const LoginPage: React.FC = () => {
@@ -9,6 +11,34 @@ const LoginPage: React.FC = () => {
   const [message, setMessage] = useState('');
   const { sendLoginEmail, signInWithLink, currentUser } = useAuth();
   const navigate = useNavigate();
+
+  // 保存されたメールアドレスを取得
+  useEffect(() => {
+    const savedEmail = window.localStorage.getItem('emailForSignIn');
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
+
+  // メールリンクからのログインを自動処理
+  useEffect(() => {
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      const savedEmail = window.localStorage.getItem('emailForSignIn');
+      if (savedEmail) {
+        setLoading(true);
+        const handleSignIn = async () => {
+          try {
+            await signInWithLink(savedEmail);
+            navigate('/');
+          } catch (error: any) {
+            setMessage(`エラー: ${error.message}`);
+            setLoading(false);
+          }
+        };
+        handleSignIn();
+      }
+    }
+  }, [signInWithLink, navigate]);
 
   // 既にログインしている場合はリダイレクト
   useEffect(() => {
