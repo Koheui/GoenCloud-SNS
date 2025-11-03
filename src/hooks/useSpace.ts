@@ -14,7 +14,7 @@ export const useSpace = () => {
     setError(null);
 
     try {
-      const newSpace: Omit<Space, 'ownerUid' | 'createdAt' | 'updatedAt'> & { ownerUid: string } = {
+      const newSpace: Omit<Space, 'id' | 'ownerUid' | 'createdAt' | 'updatedAt'> & { ownerUid: string } = {
         ownerUid,
         mode: 'life',
         profile: {

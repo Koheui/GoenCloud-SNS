@@ -33,8 +33,8 @@ const CreateSpacePage: React.FC = () => {
       return;
     }
 
-    if (userData.tokenBalance < 100) {
-      setFormError('トークンが不足しています（100トークン必要）');
+    if (!userData.tokenBalance || userData.tokenBalance < 100) {
+      setFormError(`トークンが不足しています（100トークン必要、現在: ${userData.tokenBalance || 0}トークン）`);
       return;
     }
 
@@ -79,9 +79,9 @@ const CreateSpacePage: React.FC = () => {
             />
           </div>
 
-          {(formError || error) && (
+          {(formError || spaceError) && (
             <div className="error-message">
-              {formError || error}
+              {formError || spaceError}
             </div>
           )}
 

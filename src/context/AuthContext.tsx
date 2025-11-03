@@ -62,7 +62,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userSnap = await getDoc(userRef);
     
     if (userSnap.exists()) {
-      setUserData(userSnap.data() as User);
+      const existingData = userSnap.data() as User;
+      // 既存ユーザーでトークン残高がない場合は初期付与
+      if (!existingData.tokenBalance) {
+        const updatedData = {
+          ...existingData,
+          tokenBalance: 200,
+          betaGrantedAt: serverTimestamp() as any,
+          lastTokenUpdateAt: serverTimestamp() as any,
+        };
+        await setDoc(userRef, updatedData);
+        setUserData(updatedData);
+      } else {
+        setUserData(existingData);
+      }
     } else {
       // 新規ユーザーの場合は初期データを作成
       const initialUserData: User = {
