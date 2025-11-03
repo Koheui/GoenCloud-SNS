@@ -5,8 +5,14 @@
 
 .space-header {
   background: white;
-  padding: 1.5rem 2rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .space-header {
+    padding: 1.5rem 2rem;
+  }
 }
 
 .back-button {
@@ -27,22 +33,42 @@
 
 .space-content {
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 2rem;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .space-content {
+    margin: 2rem auto;
+    padding: 0 2rem;
+  }
 }
 
 .space-profile {
   background: white;
-  padding: 3rem;
+  padding: 2rem 1rem;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .space-profile {
+    padding: 3rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .space-profile h1 {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #333;
+}
+
+@media (min-width: 768px) {
+  .space-profile h1 {
+    font-size: 2.5rem;
+  }
 }
 
 .title {
@@ -59,11 +85,18 @@
 
 .space-stats {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   background: white;
-  padding: 2rem;
+  padding: 1.5rem 1rem;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .space-stats {
+    gap: 2rem;
+    padding: 2rem;
+  }
 }
 
 .stat-item {
@@ -72,10 +105,16 @@
 }
 
 .stat-value {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #667eea;
   margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .stat-value {
+    font-size: 2.5rem;
+  }
 }
 
 .stat-label {
@@ -84,11 +123,18 @@
 }
 
 .posts-section {
-  margin-top: 2rem;
+  margin-top: 1rem;
   background: white;
-  padding: 2rem;
+  padding: 1.5rem 1rem;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .posts-section {
+    margin-top: 2rem;
+    padding: 2rem;
+  }
 }
 
 .posts-header {
